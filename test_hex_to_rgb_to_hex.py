@@ -61,6 +61,17 @@ def parse_json_from_pre(pre_el):
     return json.loads(raw)
 
 
+def save_screenshot(driver, name):
+    """Save a screenshot with a timestamp to avoid overwrites."""
+    screenshots_dir = os.path.join(os.getcwd(), "screenshots")
+    os.makedirs(screenshots_dir, exist_ok=True)
+    timestamp = time.strftime("%Y%m%d-%H%M%S")
+    filename = f"{name}_{timestamp}.png"
+    filepath = os.path.join(screenshots_dir, filename)
+    driver.save_screenshot(filepath)
+    print(f"Screenshot saved: {filepath}")
+
+
 # ---- fixtures --------------------------------------------------------------
 
 @pytest.fixture(scope="session")
@@ -104,11 +115,10 @@ def test_hex_to_rgb_valid(driver, tmp_path):
     # Verify swatch (Selenium reports rgba)
     bg_color = hex_swatch.value_of_css_property("background-color")
     assert bg_color.replace(" ", "") in ("rgba(255,255,255,1)", "rgb(255,255,255)")
-
-    # Save a nice screenshot for the assignment
-    screenshots_dir = tmp_path / "screenshots"
-    screenshots_dir.mkdir(parents=True, exist_ok=True)
-    driver.save_screenshot(str(screenshots_dir / "app.png"))
+    
+    # Take a screenshot after successful conversion
+    save_screenshot(driver, "hex_to_rgb_valid")
+    time.sleep(1)  # Pause to see the final state
 
 
 def test_rgb_to_hex_valid(driver):
@@ -142,6 +152,10 @@ def test_rgb_to_hex_valid(driver):
     bg = swatch.value_of_css_property("background-color").replace(" ", "")
     assert bg in ("rgba(3,100,60,1)", "rgb(3,100,60)")
 
+    # Take a screenshot after successful conversion
+    save_screenshot(driver, "rgb_to_hex_valid")
+    time.sleep(1)  # Pause to see the final state
+
 
 def test_hex_to_rgb_invalid_hex_shows_error(driver):
     driver.get(BASE_URL)
@@ -164,6 +178,10 @@ def test_hex_to_rgb_invalid_hex_shows_error(driver):
     assert data["success"] is False
     # optional: check error key exists
     assert "error" in data
+
+    # Take a screenshot of the error state
+    save_screenshot(driver, "hex_to_rgb_invalid")
+    time.sleep(1)  # Pause to see the error state
 
 
 def test_rgb_to_hex_out_of_range_error(driver):
@@ -190,3 +208,7 @@ def test_rgb_to_hex_out_of_range_error(driver):
 
     assert data["success"] is False
     assert "Invalid RGB" in (data.get("error", "") + data.get("message", ""))
+
+    # Take a screenshot of the error state
+    save_screenshot(driver, "rgb_to_hex_invalid")
+    time.sleep(1)  # Pause to see the error state
