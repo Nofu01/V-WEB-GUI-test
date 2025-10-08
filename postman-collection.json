@@ -1,0 +1,88 @@
+
+{
+  "info": {
+    "name": "HEX to RGB API",
+    "description": "API for converting HEX color codes to RGB",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get API Info",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": [""]
+        }
+      }
+    },
+    {
+      "name": "Convert HEX to RGB - GET",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/convert/hex-to-rgb?hex=FF5733",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "convert", "hex-to-rgb"],
+          "query": [
+            {
+              "key": "hex",
+              "value": "FF5733"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Convert HEX to RGB - POST",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"hex\": \"FFA500\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/convert/hex-to-rgb",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "convert", "hex-to-rgb"]
+        }
+      }
+    },
+    {
+      "name": "Test Error - Invalid HEX",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/api/convert/hex-to-rgb?hex=INVALID",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "convert", "hex-to-rgb"],
+          "query": [
+            {
+              "key": "hex",
+              "value": "INVALID"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+

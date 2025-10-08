@@ -1,0 +1,29 @@
+{
+  "name": "hex-to-rgb-api",
+  "version": "1.0.0",
+  "description": "REST API for conveting HEX color codes to RGB",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "jest --verbose",
+    "test:unit": "jest tests/unit --verbose",
+    "test:integration": "jest tests/integratoion --verbose"
+  },
+  "jest":{
+    "testEnvironment": "node",
+    "coveragePathIngnorePatterns": ["/node_modules/"]
+  },
+  "keywords": ["hex", "rgb", "color", "conversion", "api"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.4"
+  }
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Color Converter</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; }
+    input, button { padding: .5rem; margin: .25rem; }
+    pre { background: #f0f0f0; padding: 1rem; border-radius: 6px; }
+    .preview { width: 100px; height: 50px; border: 1px solid #ccc; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>HEX ⇄ RGB Converter</h1>
+
+  <section>
+    <h3>HEX → RGB</h3>
+    <input id="hex" placeholder="#FF5733">
+    <button onclick="convertHex()">Convert</button>
+    <pre id="hexOut"></pre>
+    <div class="preview" id="hexPreview"></div>
+  </section>
+
+  <section>
+    <h3>RGB → HEX</h3>
+    <input id="r" placeholder="R (0–255)">
+    <input id="g" placeholder="G (0–255)">
+    <input id="b" placeholder="B (0–255)">
+    <button onclick="convertRgb()">Convert</button>
+    <pre id="rgbOut"></pre>
+    <div class="preview" id="rgbPreview"></div>
+  </section>
+
+  <script>
+    async function convertHex() {
+       const hex = document.getElementById('hex').value.trim();
+        const out = document.getElementById('hexOut');
+        const sw = document.getElementById('hexPreview');
+
+    // Reset
+        out.textContent = '';
+        sw.style.background = 'transparent';
+
+        if (!hex) {
+            out.textContent = '⚠️ Please enter a HEX value first.';
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/convert/hex-to-rgb?hex=${encodeURIComponent(hex)}`);
+            const data = await res.json();
+            out.textContent = JSON.stringify(data, null, 2);
+
+            if (data.success) {
+                sw.style.background = data.data.css;
+            }
+        } catch (err) {
+            out.textContent = `Error: ${err}`;
+        }
+    }
+
+    async function convertRgb() {
+        const r = document.getElementById('r').value;
+        const g = document.getElementById('g').value;
+        const b = document.getElementById('b').value;
+        const out = document.getElementById('rgbOut');
+        const sw = document.getElementById('rgbPreview');
+
+        out.textContent = '';
+        sw.style.background = 'transparent';
+
+        try {
+            const res = await fetch(`/api/convert/rgb-to-hex?r=${r}&g=${g}&b=${b}`);
+            const data = await res.json();
+            out.textContent = JSON.stringify(data, null, 2);
+
+        if (data.success) {
+            sw.style.background = data.data.css;
+        }
+    } catch (err) {
+      out.textContent = `Error: ${err}`;
+    }
+  }
+  </script>
+</body>
+</html>

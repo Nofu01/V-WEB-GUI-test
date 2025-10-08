@@ -1,0 +1,35 @@
+
+### Base URL
+@baseUrl = http://localhost:3000
+
+### Get API Info
+GET {{baseUrl}}
+
+### Convert HEX to RGB - GET (White)
+GET {{baseUrl}}/api/convert/hex-to-rgb?hex=FFFFFF
+
+### Convert HEX to RGB - GET (Red)
+GET {{baseUrl}}/api/convert/hex-to-rgb?hex=FF0000
+
+### Convert HEX to RGB - GET (Blue with #)
+GET {{baseUrl}}/api/convert/hex-to-rgb?hex=#0000FF
+
+### Convert HEX to RGB - GET (Shorthand)
+GET {{baseUrl}}/api/convert/hex-to-rgb?hex=F0F
+
+### Convert HEX to RGB - GET (Custom color)
+GET {{baseUrl}}/api/convert/hex-to-rgb?hex=FF5733
+
+### Convert HEX to RGB - POST
+POST {{baseUrl}}/api/convert/hex-to-rgb
+Content-Type: application/json
+
+{
+  "hex": "FFA500"
+}
+
+### Test Error - Missing parameter
+GET {{baseUrl}}/api/convert/hex-to-rgb
+
+### Test Error - Invalid hex
+GET {{baseUrl}}/api/convert/hex-to-rgb?hex=INVALID
